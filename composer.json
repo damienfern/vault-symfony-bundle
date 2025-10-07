@@ -1,0 +1,33 @@
+{
+  "name": "damienfern/vault-symfony-bundle",
+  "description": "A Symfony bundle to inject secrets from HashiCorp Vault to environment variables.",
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "symfony-bundle",
+  "autoload": {
+    "psr-4": {
+      "Damienfern\\VaultSymfonyBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Damienfern\\VaultSymfonyBundle\\Tests\\": "tests/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Damien Fernandes",
+      "email": "damien.fernandes24@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "^12.3"
+  },
+  "require": {
+    "php": ">=8.2",
+    "symfony/config": "^7.3",
+    "symfony/dependency-injection": "^7.3",
+    "symfony/http-kernel": "^7.3",
+    "symfony/http-client": "^7.3"
+  }
+}
