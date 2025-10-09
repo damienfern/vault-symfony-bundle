@@ -37,7 +37,8 @@ final class VaultBundle extends AbstractBundle
                     $config['token'],
                     new Reference(HttpClientInterface::class) ?? new Reference(HttpClient::class),
                 ])
-                ->setPublic(false);
+                ->setPublic(false)
+            ;
         }
 
         $builder->register(VaultEnvVarLoader::class)
@@ -45,7 +46,8 @@ final class VaultBundle extends AbstractBundle
                 $config['path'],
                 new Reference('vault.client_factory')
             ])
-            ->addTag('container.env_var_loader');
+            ->addTag('container.env_var_loader')
+        ;
     }
 
     public function configure(DefinitionConfigurator $definition): void
@@ -65,7 +67,6 @@ final class VaultBundle extends AbstractBundle
                 ->end()
                 ->stringNode('token')
                     ->info('Your vault token')
-                    ->defaultValue('%env(default::VAULT_TOKEN)%')
                 ->end()
                 ->arrayNode('app_role')
                     ->info('AppRole authentication configuration')

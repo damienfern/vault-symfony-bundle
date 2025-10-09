@@ -3,6 +3,7 @@
 namespace Damienfern\VaultSymfonyBundle;
 
 use Exception;
+use JsonException;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -11,18 +12,17 @@ class VaultClient
 {
     public string $vaultAddr;
 
-    private HttpClientInterface $httpClient;
-
     public function __construct(
         string $vaultAddr,
         #[\SensitiveParameter]
-        public string $vaultToken,
-        ?HttpClientInterface $httpClient
+        public readonly string $vaultToken,
+        private readonly HttpClientInterface $httpClient
     )
     {
+        if (!filter_var($vaultAddr, FILTER_VALIDATE_URL)) {
+            throw new Exception("L'adresse de Vault n'est pas une URL valide");
+        }
         $this->vaultAddr = rtrim($vaultAddr, '/');
-        $this->vaultToken = $vaultToken;
-        $this->httpClient = $httpClient;
     }
 
     public function getSecrets(string $path): array
@@ -40,17 +40,18 @@ class VaultClient
 
             $statusCode = $response->getStatusCode();
             $content = $response->getContent(false);
-        } catch (TransportExceptionInterface $e) {
-            throw new Exception('Erreur de transport HTTP: ' . $e->getMessage(), previous: $e);
+        } catch (TransportExceptionInterface $exception) {
+            throw new Exception('Erreur de transport HTTP: ' . $e->getMessage(), previous: $exception);
         }
 
         if ($statusCode !== 200) {
             throw new Exception("Erreur HTTP {$statusCode}: {$content}");
         }
 
-        $data = json_decode($content, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception('Erreur JSON: ' . json_last_error_msg());
+        try {
+            $data = json_decode($content, true, flags: JSON_THROW_ON_ERROR);
+        } catch (JsonException $exception) {
+            throw new Exception('Erreur JSON: ' . $exception->getMessage(), previous: $exception);
         }
 
         return $data['data']['data'] ?? [];
