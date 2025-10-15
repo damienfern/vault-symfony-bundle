@@ -9,13 +9,15 @@ use PHPUnit\Framework\TestCase;
 
 class VaultEnvVarLoaderTest extends TestCase
 {
-    public function testLoadEnvVars()
+    public function testLoadEnvVars(): void
     {
         $factory = $this->createMock(VaultClientFactory::class);
-
         $client = $this->createMock(VaultClient::class);
+        $path = 'test/path';
+
         $client
             ->method('getSecrets')
+            ->with($path)
             ->willReturn(['TEST_KEY' => 'TEST_VALUE']);
         $factory
             ->method('create')

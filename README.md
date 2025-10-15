@@ -10,7 +10,11 @@ composer require damienfern/vault-symfony-bundle
 
 - [x] Use Symfony HTTP client instead of pure Curl
 - [x] Add support for app role auth
-- [ ] Add tests
+- [x] Add unit tests
+- [x] Add PHPStan
+- [ ] Solve PHPStan errors
+- [ ] Add CS Fixer
+- [ ] Add proper Exception for Vault errors
 - [ ] Add CI/CD
 - [ ] Add more documentation on config options
 - [ ] Find a way to revoke cache (webhook ?)

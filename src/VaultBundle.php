@@ -17,7 +17,6 @@ final class VaultBundle extends AbstractBundle
 {
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
-
         if (isset($config['app_role']['role_id']) && isset($config['app_role']['secret_id'])) {
             $builder->register('vault.client_factory', AppRoleClientFactory::class)
                 ->setArguments([

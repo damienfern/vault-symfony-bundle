@@ -4,6 +4,10 @@ namespace Damienfern\VaultSymfonyBundle;
 
 use Exception;
 use JsonException;
+use Stringable;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
@@ -25,6 +29,11 @@ class VaultClient
         $this->vaultAddr = rtrim($vaultAddr, '/');
     }
 
+
+    /**
+     * @param string $path
+     * @return array<string, Stringable>
+     */
     public function getSecrets(string $path): array
     {
         $url = sprintf('%s/v1/secret/data/%s', $this->vaultAddr, ltrim($path, '/'));
@@ -41,7 +50,7 @@ class VaultClient
             $statusCode = $response->getStatusCode();
             $content = $response->getContent(false);
         } catch (TransportExceptionInterface $exception) {
-            throw new Exception('Erreur de transport HTTP: ' . $e->getMessage(), previous: $exception);
+            throw new Exception('Erreur de transport HTTP: ' . $exception->getMessage(), previous: $exception);
         }
 
         if ($statusCode !== 200) {
