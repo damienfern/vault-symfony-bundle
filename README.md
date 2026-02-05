@@ -13,7 +13,7 @@ composer require damienfern/vault-symfony-bundle
 - [x] Add unit tests
 - [x] Add PHPStan
 - [x] Solve PHPStan errors
-- [ ] Add CS Fixer
+- [x] Add CS Fixer
 - [ ] Add proper Exception for Vault errors
 - [ ] Add CI/CD
 - [ ] Add more documentation on config options
