@@ -12,7 +12,7 @@ composer require damienfern/vault-symfony-bundle
 - [x] Add support for app role auth
 - [x] Add unit tests
 - [x] Add PHPStan
-- [ ] Solve PHPStan errors
+- [x] Solve PHPStan errors
 - [ ] Add CS Fixer
 - [ ] Add proper Exception for Vault errors
 - [ ] Add CI/CD

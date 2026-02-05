@@ -16,10 +16,12 @@ class VaultEnvVarLoaderTest extends TestCase
         $path = 'test/path';
 
         $client
+            ->expects($this->once())
             ->method('getSecrets')
             ->with($path)
             ->willReturn(['TEST_KEY' => 'TEST_VALUE']);
         $factory
+            ->expects($this->once())
             ->method('create')
             ->willReturn($client);
 

@@ -24,7 +24,7 @@ class VaultClientTest extends TestCase
                     'KEY2' => 'VALUE2'
                 ]
             ]
-        ]), ['http_code' => 200]);
+        ], JSON_THROW_ON_ERROR), ['http_code' => 200]);
 
         $httpClient = new MockHttpClient($mockResponse);
 

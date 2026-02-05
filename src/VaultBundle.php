@@ -15,6 +15,19 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class VaultBundle extends AbstractBundle
 {
+    protected string $extensionAlias = 'vault_integration';
+
+    /**
+     * @param array{
+     *      path: string,
+     *      address: string,
+     *      token?: string,
+     *      app_role?: array{
+     *          role_id?: scalar,
+     *          secret_id?: scalar
+     *      }
+     *  } $config
+     */
     public function loadExtension(array $config, ContainerConfigurator $container, ContainerBuilder $builder): void
     {
         if (isset($config['app_role']['role_id']) && isset($config['app_role']['secret_id'])) {
@@ -23,7 +36,7 @@ final class VaultBundle extends AbstractBundle
                     $config['address'],
                     $config['app_role']['role_id'],
                     $config['app_role']['secret_id'],
-                    new Reference(HttpClientInterface::class) ?? new Reference(HttpClient::class),
+                    new Reference(HttpClientInterface::class)
                 ])
                 ->setPublic(false);
         } else {
@@ -34,7 +47,7 @@ final class VaultBundle extends AbstractBundle
                 ->setArguments([
                     $config['address'],
                     $config['token'],
-                    new Reference(HttpClientInterface::class) ?? new Reference(HttpClient::class),
+                    new Reference(HttpClientInterface::class)
                 ])
                 ->setPublic(false)
             ;
@@ -56,7 +69,7 @@ final class VaultBundle extends AbstractBundle
                 ->stringNode('path')
                     ->info('Path for your secrets in vault')
                     ->example('data/myapp/')
-                    ->defaultValue('')
+                    ->isRequired()
                 ->end()
                 ->stringNode('address')
                     ->info('Your vault address')
