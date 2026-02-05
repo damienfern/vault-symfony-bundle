@@ -22,7 +22,8 @@
   ],
   "require-dev": {
     "phpunit/phpunit": "^12.3",
-    "phpstan/phpstan": "^2.1"
+    "phpstan/phpstan": "^2.1",
+    "php-cs-fixer/shim": "^3.93"
   },
   "require": {
     "php": ">=8.2",

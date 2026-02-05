@@ -2,15 +2,8 @@
 
 namespace Damienfern\VaultSymfonyBundle;
 
-use Exception;
-use JsonException;
-use Stringable;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class VaultClient
 {
@@ -20,19 +13,16 @@ class VaultClient
         string $vaultAddr,
         #[\SensitiveParameter]
         public readonly string $vaultToken,
-        private readonly HttpClientInterface $httpClient
-    )
-    {
+        private readonly HttpClientInterface $httpClient,
+    ) {
         if (!filter_var($vaultAddr, FILTER_VALIDATE_URL)) {
-            throw new Exception("L'adresse de Vault n'est pas une URL valide");
+            throw new \Exception("L'adresse de Vault n'est pas une URL valide");
         }
         $this->vaultAddr = rtrim($vaultAddr, '/');
     }
 
-
     /**
-     * @param string $path
-     * @return array<string, Stringable>
+     * @return array<string, \Stringable>
      */
     public function getSecrets(string $path): array
     {
@@ -42,7 +32,7 @@ class VaultClient
             $response = $this->httpClient->request('GET', $url, [
                 'headers' => [
                     'X-Vault-Token' => $this->vaultToken,
-                    'Content-Type' => 'application/json'
+                    'Content-Type' => 'application/json',
                 ],
                 'timeout' => 10,
             ]);
@@ -50,17 +40,17 @@ class VaultClient
             $statusCode = $response->getStatusCode();
             $content = $response->getContent(false);
         } catch (TransportExceptionInterface $exception) {
-            throw new Exception('Erreur de transport HTTP: ' . $exception->getMessage(), previous: $exception);
+            throw new \Exception('Erreur de transport HTTP: '.$exception->getMessage(), previous: $exception);
         }
 
-        if ($statusCode !== 200) {
-            throw new Exception("Erreur HTTP {$statusCode}: {$content}");
+        if (200 !== $statusCode) {
+            throw new \Exception("Erreur HTTP {$statusCode}: {$content}");
         }
 
         try {
             $data = json_decode($content, true, flags: JSON_THROW_ON_ERROR);
-        } catch (JsonException $exception) {
-            throw new Exception('Erreur JSON: ' . $exception->getMessage(), previous: $exception);
+        } catch (\JsonException $exception) {
+            throw new \Exception('Erreur JSON: '.$exception->getMessage(), previous: $exception);
         }
 
         return $data['data']['data'] ?? [];

@@ -15,15 +15,15 @@ class VaultClientTest extends TestCase
         $vaultToken = 'your_test_token';
         $testPath = 'your/test/path';
 
-        $expectedUrl = rtrim($vaultAddr, '/') . '/v1/secret/data/' . ltrim($testPath, '/');
+        $expectedUrl = rtrim($vaultAddr, '/').'/v1/secret/data/'.ltrim($testPath, '/');
 
         $mockResponse = new MockResponse(json_encode([
             'data' => [
                 'data' => [
                     'KEY1' => 'VALUE1',
-                    'KEY2' => 'VALUE2'
-                ]
-            ]
+                    'KEY2' => 'VALUE2',
+                ],
+            ],
         ], JSON_THROW_ON_ERROR), ['http_code' => 200]);
 
         $httpClient = new MockHttpClient($mockResponse);
@@ -40,7 +40,7 @@ class VaultClientTest extends TestCase
 
         $this->assertSame([
             'KEY1' => 'VALUE1',
-            'KEY2' => 'VALUE2'
+            'KEY2' => 'VALUE2',
         ], $secrets);
     }
 }

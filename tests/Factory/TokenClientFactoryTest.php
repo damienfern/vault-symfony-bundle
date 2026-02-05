@@ -3,7 +3,6 @@
 namespace Damienfern\VaultSymfonyBundle\Tests\Factory;
 
 use Damienfern\VaultSymfonyBundle\Factory\TokenClientFactory;
-use Damienfern\VaultSymfonyBundle\VaultClient;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
 use PHPUnit\Framework\TestCase;
 use Symfony\Contracts\HttpClient\HttpClientInterface;

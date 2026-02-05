@@ -4,12 +4,10 @@ namespace Damienfern\VaultSymfonyBundle;
 
 use Damienfern\VaultSymfonyBundle\Factory\AppRoleClientFactory;
 use Damienfern\VaultSymfonyBundle\Factory\TokenClientFactory;
-use Damienfern\VaultSymfonyBundle\Factory\VaultClientFactory;
 use Symfony\Component\Config\Definition\Configurator\DefinitionConfigurator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\DependencyInjection\Reference; // ajout pour référencer le service
-use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -36,7 +34,7 @@ final class VaultBundle extends AbstractBundle
                     $config['address'],
                     $config['app_role']['role_id'],
                     $config['app_role']['secret_id'],
-                    new Reference(HttpClientInterface::class)
+                    new Reference(HttpClientInterface::class),
                 ])
                 ->setPublic(false);
         } else {
@@ -47,7 +45,7 @@ final class VaultBundle extends AbstractBundle
                 ->setArguments([
                     $config['address'],
                     $config['token'],
-                    new Reference(HttpClientInterface::class)
+                    new Reference(HttpClientInterface::class),
                 ])
                 ->setPublic(false)
             ;
@@ -56,7 +54,7 @@ final class VaultBundle extends AbstractBundle
         $builder->register(VaultEnvVarLoader::class)
             ->setArguments([
                 $config['path'],
-                new Reference('vault.client_factory')
+                new Reference('vault.client_factory'),
             ])
             ->addTag('container.env_var_loader')
         ;

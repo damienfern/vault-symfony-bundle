@@ -12,13 +12,13 @@ class AppRoleClientFactoryTest extends TestCase
     public function testCreate(): void
     {
         $vaultAddr = 'http://localhost:8200';
-        $expectedUrl = $vaultAddr . '/v1/auth/approle/login';
+        $expectedUrl = $vaultAddr.'/v1/auth/approle/login';
 
         $mockResponse = new MockResponse(json_encode([
             'auth' => [
-                'client_token' => 'test-token'
-            ]
-        ]), ['http_code' => 200]);
+                'client_token' => 'test-token',
+            ],
+        ], JSON_THROW_ON_ERROR), ['http_code' => 200]);
 
         $httpClient = new MockHttpClient($mockResponse);
 
