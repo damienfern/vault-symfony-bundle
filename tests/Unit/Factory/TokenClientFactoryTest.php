@@ -1,6 +1,6 @@
 <?php
 
-namespace Damienfern\VaultSymfonyBundle\Tests\Factory;
+namespace Damienfern\VaultSymfonyBundle\Tests\Unit\Factory;
 
 use Damienfern\VaultSymfonyBundle\Factory\TokenClientFactory;
 use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;

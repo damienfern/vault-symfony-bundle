@@ -1,6 +1,6 @@
 <?php
 
-namespace Damienfern\VaultSymfonyBundle\Tests;
+namespace Damienfern\VaultSymfonyBundle\Tests\Unit;
 
 use Damienfern\VaultSymfonyBundle\Factory\VaultClientFactory;
 use Damienfern\VaultSymfonyBundle\VaultClient;
